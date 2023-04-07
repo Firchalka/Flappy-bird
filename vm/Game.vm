@@ -1,0 +1,365 @@
+function Game.new 0
+push constant 12
+call Memory.alloc 1
+pop pointer 0
+push constant 8
+push constant 128
+call Player.new 2
+pop this 0
+push constant 2
+push constant 50
+call Pipe.init 2
+pop temp 0
+push constant 614
+push constant 560
+push constant 3
+call Math.divide 2
+push constant 0
+call Math.multiply 2
+add
+push constant 128
+call Pipe.new 2
+pop this 1
+push constant 614
+push constant 560
+push constant 3
+call Math.divide 2
+push constant 1
+call Math.multiply 2
+add
+push constant 128
+call Pipe.new 2
+pop this 2
+push constant 614
+push constant 560
+push constant 3
+call Math.divide 2
+push constant 2
+call Math.multiply 2
+add
+push constant 128
+call Pipe.new 2
+pop this 3
+push pointer 0
+return
+function Game.dispose 0
+push argument 0
+pop pointer 0
+push this 0
+call Player.dispose 1
+pop temp 0
+push this 1
+call Pipe.dispose 1
+pop temp 0
+push this 2
+call Pipe.dispose 1
+pop temp 0
+push this 3
+call Pipe.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Game.handle_input 0
+push argument 0
+pop pointer 0
+call Keyboard.keyPressed 0
+pop this 4
+push this 4
+push constant 81
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+pop this 7
+push constant 0
+not
+pop this 9
+label IF_FALSE0
+push this 4
+push constant 82
+eq
+push this 6
+not
+and
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+not
+pop this 7
+push constant 0
+not
+pop this 8
+label IF_FALSE1
+push this 4
+push constant 32
+eq
+push this 5
+push constant 32
+eq
+not
+and
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 0
+call Player.jump 1
+pop temp 0
+push this 6
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+pop this 6
+push this 11
+call LCGRandom.setSeed 1
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push constant 22
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+push constant 21
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+label IF_FALSE3
+label IF_FALSE2
+push this 4
+pop this 5
+push constant 0
+return
+function Game.handle_pipe 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 2
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+pop this 7
+label IF_FALSE0
+push constant 0
+return
+function Game.refresh 0
+push argument 0
+pop pointer 0
+push this 0
+call Player.update 1
+pop temp 0
+push this 6
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 1
+call Pipe.update 1
+pop temp 0
+push this 2
+call Pipe.update 1
+pop temp 0
+push this 3
+call Pipe.update 1
+pop temp 0
+push pointer 0
+push this 1
+push this 0
+call Player.x 1
+push this 0
+call Player.y 1
+call Pipe.is_player_inside_me 3
+call Game.handle_pipe 2
+pop temp 0
+push pointer 0
+push this 2
+push this 0
+call Player.x 1
+push this 0
+call Player.y 1
+call Pipe.is_player_inside_me 3
+call Game.handle_pipe 2
+pop temp 0
+push pointer 0
+push this 3
+push this 0
+call Player.x 1
+push this 0
+call Player.y 1
+call Pipe.is_player_inside_me 3
+call Game.handle_pipe 2
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Game.render_vitals 0
+push argument 0
+pop pointer 0
+push this 11
+push constant 1
+add
+pop this 11
+push this 11
+push constant 0
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop this 11
+push this 6
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 21
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+goto IF_END1
+label IF_FALSE1
+push constant 22
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+label IF_END1
+label IF_FALSE0
+push constant 22
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+push this 6
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 21
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+label IF_FALSE2
+push constant 0
+return
+function Game.run 0
+push argument 0
+pop pointer 0
+push constant 0
+pop this 4
+push constant 0
+pop this 5
+push constant 0
+not
+pop this 6
+push constant 0
+pop this 7
+push constant 0
+pop this 8
+push constant 0
+pop this 9
+push constant 0
+pop this 11
+label WHILE_EXP0
+push this 7
+not
+not
+if-goto WHILE_END0
+push pointer 0
+call Game.handle_input 1
+pop temp 0
+push pointer 0
+call Game.refresh 1
+pop temp 0
+push pointer 0
+call Game.render_vitals 1
+pop temp 0
+push constant 2
+call Sys.wait 1
+pop temp 0
+goto WHILE_EXP0
+label WHILE_END0
+label WHILE_EXP1
+push this 8
+not
+not
+if-goto WHILE_END1
+call Keyboard.keyPressed 0
+pop this 4
+push this 4
+push constant 81
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push this 4
+push constant 82
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+not
+pop this 8
+label IF_FALSE1
+goto WHILE_EXP1
+label WHILE_END1
+push pointer 0
+call Game.reset 1
+pop temp 0
+push constant 0
+not
+return
+function Game.reset 0
+push argument 0
+pop pointer 0
+call Screen.clearScreen 0
+pop temp 0
+push this 0
+push constant 8
+push constant 128
+call Player.reset 3
+pop temp 0
+push this 1
+push constant 614
+push constant 560
+push constant 3
+call Math.divide 2
+push constant 0
+call Math.multiply 2
+add
+push constant 128
+call Pipe.reset 3
+pop temp 0
+push this 2
+push constant 614
+push constant 560
+push constant 3
+call Math.divide 2
+push constant 1
+call Math.multiply 2
+add
+push constant 128
+call Pipe.reset 3
+pop temp 0
+push this 3
+push constant 614
+push constant 560
+push constant 3
+call Math.divide 2
+push constant 2
+call Math.multiply 2
+add
+push constant 128
+call Pipe.reset 3
+pop temp 0
+push constant 0
+return
