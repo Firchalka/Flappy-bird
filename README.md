@@ -1,1 +1,1 @@
-Игра Flappy-bird на языке Jack.
+Игра Flappy-Square на языке Jack.
